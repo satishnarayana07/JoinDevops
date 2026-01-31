@@ -1,0 +1,4 @@
+#!/bin/bash
+echo "hellow, world"
+echo "hi How are your"
+echo "welcome to bash scripting"
