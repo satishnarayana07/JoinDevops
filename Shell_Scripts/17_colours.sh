@@ -26,7 +26,7 @@ fi
 
 for package in $@
 do
-dnf list intalled "$package" &>>$LOGS_FILE
+dnf list installed $package &>>$LOGS_FILE
 if [ $? -ne 0 ] ; then
 echo -e " $Y $package $R not installed..$B installing now buddy $N"
 dnf install $package -y &>>$LOGS_FILE
