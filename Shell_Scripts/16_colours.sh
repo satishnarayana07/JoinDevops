@@ -12,3 +12,4 @@ W="\e[37m"
 N="\e[0m"
 
 echo -e "$R Hello world $N, $Y I am learing linux $N"
+echo -e "$G I am fine $N, $B what about you $N ?"
