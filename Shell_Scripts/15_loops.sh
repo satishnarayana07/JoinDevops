@@ -1,6 +1,6 @@
 #!/bin/bash
 USERID=$(id -u)
-LOGS_FOLDER="/var/log/shell_logs/"
+LOGS_FOLDER="/var/log/shelllogs/"
 LOGS_FILE="$LOGS_FOLDER/$0.log"
 
 #1.Root use check
