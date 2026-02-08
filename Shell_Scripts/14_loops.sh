@@ -17,12 +17,11 @@ VALIDATE ()
     else 
     echo "$2...installation is successful" |tee -a $LOGS_FILE
     fi
-
-    }
+ }
 
     for package in $@
     do
     dnf install $package -y & >> $LOGS_FILE
- VALIDATE $? "$package"
+    VALIDATE $? "$package"
     done
 
