@@ -6,6 +6,7 @@ R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 B="\e[34m" 
+N="\e[0m"
 
 if [ $USERID -ne 0 ] ; then
 echo -e " $R ERROR: $Y please run as Root user..like using $G 'sudo' $N"
@@ -27,11 +28,11 @@ for package in $@
 do
 dnf list intalled "$package" &>>$LOGS_FILE
 if [ $? -ne 0 ] ; then
-echo -e " $Y $package $R not installed..$B installing now buddy"
+echo -e " $Y $package $R not installed..$B installing now buddy $N"
 dnf install $package -y &>>$LOGS_FILE
 VALIDATE $? $package 
 else
-echo -e "$Y Required software $package has already $G available $N"
+echo -e "Required software $package has already $G available $N"
 fi
 done
 
