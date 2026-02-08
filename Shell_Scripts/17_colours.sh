@@ -31,7 +31,7 @@ echo -e " $Y $package $R not installed..$B installing now buddy"
 dnf install $package -y &>>$LOGS_FILE
 VALIDATE $? $package 
 else
-echo -e "Required software $package has already $G available $N"
+echo -e "$Y Required software $package has already $G available $N"
 fi
 done
 
