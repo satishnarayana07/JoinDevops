@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-#set -e #this will be used to exit the script if any error found
+set -e #this will be used to exit the script if any error found
 
 USERID=$(id -u)
 LOGS_FOLDER="/var/log/logs/"
