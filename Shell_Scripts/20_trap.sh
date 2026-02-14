@@ -29,14 +29,16 @@ fi
 }
 
 
-for package in $@
-do
-dnf list installed "$package" 2>&1 | tee -a $LOGS_FILE
-if [ $? -ne 0 ] ; then
-echo -e " $Y $package $R not installed..$B installing now buddy $N"
-dnf install $package -y &>>$LOGS_FILE
-VALIDATE $? $package 
+for package in "$@"; do
+echo "checking for $package.." |tee -a $LOGS_FILE
+
+if rpm -q "$package" &>>$LOGS_FILE; then
+echo -e "Required software $package has already available "| tee -a $LOGS_FILE
 else
-echo -e "Required software $package has already $G available $N"
+echo "installing $package now.."|tee -a $LOGS_FILE
+dnf install "$package" -y &>>$LOGS_FILE
+VALIDATE $? $package
 fi
 done
+
+echo "script completed $(date)"|tee -a $LOGS_FILE
