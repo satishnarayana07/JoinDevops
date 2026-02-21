@@ -1,0 +1,79 @@
+#!/bin/bash
+R="\e[31m"
+G="\e[32m"
+Y="\e[33m"
+N="\e[0m"
+START_TIME=$(date +%s)
+SCRIPT_DIR=$PWD
+USERID=$(id -u)
+LOG_FOLDER="/var/log/shell-script"
+SCRIPT_NAME=$( echo $0 | cut -d "." -f1 )
+LOG_FILE="$LOG_FOLDER/$SCRIPT_NAME.log"
+mkdir -p $LOG_FOLDER
+echo "Script strated at $(date)" | tee -a $LOG_FILE
+if [ $USERID -ne 0 ]; then
+    echo "ERROR:: Please run this script as root privelliage"
+    exit 1
+fi
+
+VALIDATE() {
+    if [ $1 -ne 0 ]; then
+        echo -e "$2 ....$R FAILURE $N" | tee -a $LOG_FILE
+        exit 1
+    else 
+        echo -e "$2....$G SUCCESS $N" | tee -a $LOG_FILE
+    fi
+}
+
+###### USER ####
+
+dnf module disable nodejs -y &>>$LOG_FILE
+VALIDATE $? "Disable nodejs"
+
+dnf module enable nodejs:20 -y &>>$LOG_FILE
+VALIDATE $? "Enable nodejs 20"
+
+dnf install nodejs -y &>>$LOG_FILE
+VALIDATE $? "Install nodejs"
+
+id roboshop &>>$LOG_FILE
+if [ $? -ne 0 ]; then
+    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+    VALIDATE $? "Add user"
+else
+    echo -e "User already exist...$Y SKIPPING $N"| tee -a $LOG_FILE
+fi
+
+mkdir -p /app
+VALIDATE $? "Create /app"
+
+curl -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip &>>$LOG_FILE
+VALIDATE $? "Download code"
+
+cd /app
+VALIDATE $? "Move to /app"
+
+rm -rf /app/* $>>$LOG_FILE
+VALIDATE $? "Remove old code"
+
+unzip /tmp/user.zip &>>LOG_FILE
+VALIDATE $? "Unzip the code"
+
+npm install &>>$LOG_FILE
+VALIDATE $? "Install dependencies"
+
+cp $SCRIPT_DIR/user.service /etc/systemd/system/user.service &>>$LOG_FILE
+VALIDATE $? "Created systemctl service"
+
+systemctl daemon-reload &>>$LOG_FILE
+VALIDATE $? "Reload files"
+
+systemctl enable user &>>LOG_FILE
+VALIDATE $? "Enable user"
+
+systemctl restart user &>>$LOG_FILE
+VALIDATE $? "Restart user"
+
+END_TIME=$(date +%s)
+TOTAL_TIME=$(($END_TIME-$START_TIME))
+echo -e "Script executed in: $Y $TOTAL_TIME Seconds $N"
