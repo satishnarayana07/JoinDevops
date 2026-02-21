@@ -1,9 +1,9 @@
 #!/bin/bash
 START_TIME=$(date +%s)
 USERID=$(id -u)
-LOGS_FOLDER="/var/log/catlouge_logs/"
+LOGS_FOLDER="/var/log/logs/"
 SCRIPT_NAME=$(echo $0|cut -d "." -f1)
-LOGS_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log"
+LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log"
 MONGODB_HOST=mongodb.sandarshantv.online
 SCRIPT_DIR=$PWD
 R="\e[31m"
