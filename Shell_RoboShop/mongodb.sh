@@ -14,7 +14,8 @@ echo -e " $R ERROR: $Y please run as Root user..like using $G 'sudo' $N"
 exit 1
 fi
 mkdir -p $LOGS_FOLDER
-VALIDATE(){
+VALIDATE()
+{
 if [ $1 -ne 0 ] ; then
 echo -e " $2 $R not installed " |tee -a $LOGS_FILE
 else
