@@ -60,8 +60,8 @@ VALIDATE $? "Moved to shipping.jar"
 cp $SCRIPT_DIR/shipping.service /etc/systemd/system/shipping.service  &>>$LOG_FILE
 VALIDATE $? "Created systemctl services"
 
-systemctl daemon-reload
-systemctl enable shipping  &>>$LOG_FILE
+sudo systemctl daemon-reload
+sudo systemctl enable shipping  &>>$LOG_FILE
 VALIDATE $? "Enable shipping"
 
 dnf install mysql -y  &>>$LOG_FILE

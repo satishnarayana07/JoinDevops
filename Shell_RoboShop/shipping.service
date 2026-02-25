@@ -5,7 +5,7 @@ Description=Shipping Service
 User=roboshop
 // highlight-start
 Environment=CART_ENDPOINT=cart.sandarshantv.online:8080
-Environment=DB_HOST=mysql.sandarshantv.online?allowPublicKeyRetrieval=true&useSSL=false
+Environment=DB_HOST=mysql.sandarshantv.online
 // highlight-end
 ExecStart=/bin/java -jar /app/shipping.jar
 SyslogIdentifier=shipping
