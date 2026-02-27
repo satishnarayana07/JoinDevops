@@ -28,7 +28,7 @@ VALIDATE() {
 
 ###### SHIPPING ######
 dnf install maven -y &>>$LOG_FILE
-VALIDATE $? "Install python"
+VALIDATE $? "Install maven"
 
 id roboshop &>>$LOG_FILE
 if [ $? -ne 0 ]; then
